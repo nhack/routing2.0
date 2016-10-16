@@ -4,6 +4,7 @@
 import {Component, Inject} from "@angular/core";
 import {Pizza} from "../../domain/pizza";
 import {PIZZA_SERVICE, PizzaService} from "../../services/pizza.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'pizza',
@@ -14,7 +15,8 @@ export class PizzaComponent {
 
   private pizza: Pizza;
 
-  constructor(@Inject(PIZZA_SERVICE) private pizzaService: PizzaService) {
-    this.pizza = pizzaService.getPizza('PEPPERONI');
+  constructor(@Inject(PIZZA_SERVICE) private pizzaService: PizzaService,
+              private route: ActivatedRoute) {
+    route.params.subscribe(params=>this.pizza = pizzaService.getPizza(params['type']));
   }
 }
